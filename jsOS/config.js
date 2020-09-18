@@ -1,0 +1,1 @@
+var config={authorName:"HB",osName:"jsOS",};

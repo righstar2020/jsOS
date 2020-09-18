@@ -1,0 +1,284 @@
+<!doctype html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>js操作系统模拟</title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="jsOS" />
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div class="box">
+        <!--左边系统运行选择-->
+        <div class="leftBox">
+            <div class="hiddenBox">
+                <i class="layui-icon layui-icon-prev"></i>
+            </div>
+            <div class="sideList" id="sideList">
+                <div class="sideListBtn btnOn" id="btn1" title="进程调度模拟">
+                    <i class="layui-icon layui-icon-template-1"></i>
+                </div>
+                <div class="sideListBtn" id="btn2" title="实时运行">
+                    <i class="layui-icon layui-icon-engine"></i>
+                </div>
+                <div class="sideListBtn" id="btn3" title="文件系统">
+                    <i class="layui-icon layui-icon-file"></i>
+                </div>
+            </div>
+            <div class="contentContainer">
+                <div class="contentTitle" id="contentTitle">进程调度模拟</div>
+                <div class="content " id="content1">
+                    <div class="imitateChoiceContainer">
+                        <view class="choiceItem">
+
+                            <text>所需时间片</text>
+                            <input onchange="setImitateChoice()" type="text" id="choiceRunTime" class="am-form-field am-radius" value="10" />
+                        </view>
+                        <view class="choiceItem">
+                            <text>延迟时间</text>
+                            <input onchange="setImitateChoice()" type="text" id="choiceDelayTime" class="am-form-field am-radius" value="0" />
+                        </view>
+                        <view class="choiceItem">
+                            <text>优先级</text>
+                            <input onchange="setImitateChoice()" type="text" id="choicePriorityLevel" class="am-form-field am-radius" value="0" />
+                        </view>
+                        <button onclick="setImitateChoice()" class="layui-btn layui-btn-normal">确定</button>
+                    </div>
+                    <div data-am-widget="tabs" class="am-tabs am-tabs-default methodSwitch">
+                        <ul class="am-tabs-nav am-cf switchBtnList">
+                            <li class="am-active"><a href="[data-tab-panel-0]">全部</a></li>
+                            <li><a href="[data-tab-panel-1]">FIFO</a></li>
+                            <li><a href="[data-tab-panel-2]">RR</a></li>
+                            <li><a href="[data-tab-panel-3]">优先级调度</a></li>
+                        </ul>
+                        <div id="imitateDataContainer" class="am-tabs-bd imitateDataContainer">
+                            <div data-tab-panel-0 class="am-tab-panel am-active">
+                                <table class="layui-table" lay-size="sm">
+                                    <colgroup>
+                                        <col width="150">
+                                        <col width="200">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>调度算法</th>
+                                            <th>进程ID</th>
+                                            <th>优先级数</th>
+                                            <th>需要时间</th>
+                                            <th>已运行时间</th>
+                                            <th>到达时间</th>
+                                            <th>开始时间</th>
+                                            <th>完成时间</th>
+                                            <th>等待时间</th>
+                                            <th>周转时间</th>
+                                            <th>带权周转时间</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="imitateView0">
+
+
+                                    </tbody>
+                                </table>
+                                <div class="layui-btn-group">
+                                    <button onclick="addImitateProcess(null,1,0,true,true)" type="button" class="layui-btn addImitate">随机增加</button>
+                                    <button type="button" class="layui-btn runImitate">执行</button>
+                                    <button type="button" id="clearType0" class="layui-btn clearImitate">清空</button>
+                                </div>
+                            </div>
+                            <div data-tab-panel-1 class="am-tab-panel am-active">
+                                <table class="layui-table" lay-size="sm">
+                                    <colgroup>
+                                        <col width="150">
+                                        <col width="200">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>调度算法</th>
+                                            <th>进程ID</th>
+                                            <th>优先级数</th>
+                                            <th>需要时间</th>
+                                            <th>已运行时间</th>
+                                            <th>到达时间</th>
+                                            <th>开始时间</th>
+                                            <th>完成时间</th>
+                                            <th>等待时间</th>
+                                            <th>周转时间</th>
+                                            <th>带权周转时间</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="imitateView1">
+
+
+                                    </tbody>
+                                </table>
+                                <div class="layui-btn-group">
+                                    <button onclick="addImitateProcess(null,1,0,false,false)" type="button" class="layui-btn addImitate">增加</button>
+                                    <button type="button" class="layui-btn runImitate">执行</button>
+                                    <button type="button" id="clearType1" class="layui-btn clearImitate">清空</button>
+                                </div>
+                            </div>
+                            <div data-tab-panel-2 class="am-tab-panel">
+                                <table class="layui-table" lay-size="sm">
+                                    <colgroup>
+                                        <col width="150">
+                                        <col width="200">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>调度算法</th>
+                                            <th>进程ID</th>
+                                            <th>优先级数</th>
+                                            <th>需要时间</th>
+                                            <th>已运行时间</th>
+                                            <th>到达时间</th>
+                                            <th>开始时间</th>
+                                            <th>完成时间</th>
+                                            <th>等待时间</th>
+                                            <th>周转时间</th>
+                                            <th>带权周转时间</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="imitateView2">
+
+
+                                    </tbody>
+                                </table>
+
+                                <div class="layui-btn-group">
+                                    <button onclick="addImitateProcess(null,2,0,false,false)" type="button" class="layui-btn addImitate">增加</button>
+                                    <button type="button" class="layui-btn runImitate">执行</button>
+                                    <button type="button" id="clearType2" class="layui-btn clearImitate">清空</button>
+                                </div>
+
+                            </div>
+                            <div data-tab-panel-3 class="am-tab-panel ">
+                                <table class="layui-table" lay-size="sm">
+                                    <colgroup>
+                                        <col width="150">
+                                        <col width="200">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>调度算法</th>
+                                            <th>进程ID</th>
+                                            <th>优先级数</th>
+                                            <th>需要时间</th>
+                                            <th>已运行时间</th>
+                                            <th>到达时间</th>
+                                            <th>开始时间</th>
+                                            <th>完成时间</th>
+                                            <th>等待时间</th>
+                                            <th>周转时间</th>
+                                            <th>带权周转时间</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="imitateView3">
+
+
+                                    </tbody>
+                                </table>
+
+                                <div class="layui-btn-group">
+                                    <button onclick="addImitateProcess(null,3,0,false,true)" type="button" class="layui-btn addImitate">增加</button>
+                                    <button type="button" class="layui-btn runImitate">执行</button>
+                                    <button type="button" id="clearType3" class="layui-btn clearImitate">清空</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="rightBox">
+            <div class="mainWindow" id="mainWindow">
+                <!--window底部导航栏-->
+                <div class="bottomSide" id="bottomSide" style="display: none;">
+                    <div class="bottomSide-startBtn" title="开始">
+                        <i class="layui-icon layui-icon-windows"></i>
+                    </div>
+                    <div class="screenTime" id="screenTime">
+
+                    </div>
+                </div>
+            </div>
+            <div class="windowName">console控制台</div>
+            <div class="consoleWindow" id="consoleWindow">
+
+                <div class="consoleInput" id="consoleInput">
+                    >&nbsp; <input type="text" autofocus="autofocus" onkeydown="scanInput(event)" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="assets/js/amazeui.min.js"></script>
+    <script src="layui/layui.js"></script>
+
+</body>
+<!--网页控制的api及一些前端工具-->
+<script src="utils/echarts.min.js"></script>
+<script src="jsOS/api.js"></script>
+<!--底层系统部分-->
+<script src="jsOS/config.js"></script>
+<script src="jsOS/osVar.js"></script>
+<script src="jsOS/mm.js"></script>
+<script src="jsOS/utils.js"></script>
+<script src="jsOS/clock.js"></script>
+<script src="jsOS/consoleWindow.js"></script>
+<script src="jsOS/scheduler.js"></script>
+<script src="jsOS/CPU.js"></script>
+
+<!--设备-->
+<script src="jsOS/device/windowDrawer.js"></script>
+<script src="jsOS/device/drawer.js"></script>
+<!--上层系统部分-->
+<script src="jsOS/device.js"></script>
+<script src="jsOS/application.js"></script>
+<script src="jsOS/process.js"></script>
+<script src="jsOS/command.js"></script>
+<script src="jsOS/consoleCmd.js"></script>
+<script src="jsOS/os.js"></script>
+<script src="jsOS/main.js"></script>
+
+<!--网页控制系统api-->
+<script src="jsOS/webControlApi.js"></script>
+
+</html>
